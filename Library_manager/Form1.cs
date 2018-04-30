@@ -71,11 +71,18 @@ namespace Library_manager
             sqliteInsertCommand.Parameters.Add(new SQLiteParameter("@Adress", DbType.String, "Adress"));
             sqliteInsertCommand.Parameters.Add(new SQLiteParameter("@Familiya", DbType.String, "Familiya"));
 
+            SQLiteCommand sqliteDeleteCommand;
+            sqliteDeleteCommand = sqlite_conn.CreateCommand();
+            sqliteDeleteCommand.CommandText = @"DELETE FROM Clients WHERE id = @oldId";
+            sqliteDeleteCommand.Parameters.Add(new SQLiteParameter("@oldId", DbType.Int16, "id"));
+            sqliteDeleteCommand.Parameters["@oldId"].SourceVersion = DataRowVersion.Original;
+
             mDataTable = new DataTable();
             da = new SQLiteDataAdapter();
             da.SelectCommand = sqliteSelectCommand;
             da.UpdateCommand = sqliteUpdateCommand;
             da.InsertCommand = sqliteInsertCommand;
+            da.DeleteCommand = sqliteDeleteCommand;
             da.Fill(mDataTable);
             dataGridView1.DataSource = mDataTable;
         }
