@@ -49,11 +49,11 @@ namespace Library_manager
             /* SQLiteDataAdapter */
 
             SQLiteConnection sqlite_conn = Globals.getSQLiteConnection();
-
+            // команда SELECT
             SQLiteCommand sqliteSelectCommand;
             sqliteSelectCommand = sqlite_conn.CreateCommand();
             sqliteSelectCommand.CommandText = "SELECT id, Adress, Familiya FROM Clients";
-
+            // команда UPDATE
             SQLiteCommand sqliteUpdateCommand;
             sqliteUpdateCommand = sqlite_conn.CreateCommand();
             sqliteUpdateCommand.CommandText = "UPDATE Clients SET id = @id, Adress = @Adress, Familiya = @Familiya WHERE id = @oldId";
@@ -63,20 +63,20 @@ namespace Library_manager
             sqliteUpdateCommand.Parameters.Add(new SQLiteParameter("@Familiya", DbType.String, "Familiya"));
             sqliteUpdateCommand.Parameters.Add(new SQLiteParameter("@oldId", DbType.Int16, "id"));
             sqliteUpdateCommand.Parameters["@oldId"].SourceVersion = DataRowVersion.Original;
-
+            // команда INSERT
             SQLiteCommand sqliteInsertCommand;
             sqliteInsertCommand = sqlite_conn.CreateCommand();
             sqliteInsertCommand.CommandText = @"INSERT INTO Clients (id, Adress, Familiya, Imya) VALUES (@id, @Adress, @Familiya, '')";
             sqliteInsertCommand.Parameters.Add(new SQLiteParameter("@id", DbType.Int16, "id"));
             sqliteInsertCommand.Parameters.Add(new SQLiteParameter("@Adress", DbType.String, "Adress"));
             sqliteInsertCommand.Parameters.Add(new SQLiteParameter("@Familiya", DbType.String, "Familiya"));
-
+            // команда DELETE
             SQLiteCommand sqliteDeleteCommand;
             sqliteDeleteCommand = sqlite_conn.CreateCommand();
             sqliteDeleteCommand.CommandText = @"DELETE FROM Clients WHERE id = @oldId";
             sqliteDeleteCommand.Parameters.Add(new SQLiteParameter("@oldId", DbType.Int16, "id"));
             sqliteDeleteCommand.Parameters["@oldId"].SourceVersion = DataRowVersion.Original;
-
+            // подключение команд
             mDataTable = new DataTable();
             da = new SQLiteDataAdapter();
             da.SelectCommand = sqliteSelectCommand;
